@@ -1,25 +1,32 @@
-# Delivery_Backend
+# Delivery Web App Backend
 
-# File Structure
+This is a **Delivery Management System backend** built using **Express.js** and **MySQL**.  
+It is designed for managing **users, riders, and parcels** in a delivery service application.  
+This project follows a clean folder structure with **Models, Controllers, and Routes** to maintain scalability and readability.
+
+---
+
+## 🧩 Project Structure
+
 delivery-backend/
 │
 ├── config/
-│   └── db.js
+│ └── db.js # MySQL database connection
 │
 ├── controllers/
-│   ├── userController.js
-│   ├── riderController.js
-│   └── parcelController.js
+│ ├── userController.js # User logic
+│ ├── riderController.js # Rider logic
+│ └── parcelController.js # Parcel logic
 │
 ├── routes/
-│   ├── userRoutes.js
-│   ├── riderRoutes.js
-│   └── parcelRoutes.js
+│ ├── userRoutes.js # User API endpoints
+│ ├── riderRoutes.js # Rider API endpoints
+│ └── parcelRoutes.js # Parcel API endpoints
 │
 ├── models/
-│   └── parcelModel.js
+│ └── parcelModel.js # Database queries / models
 │
-├── .env
+├── .env # Environment variables
 ├── package.json
-├── server.js
+├── server.js # Main Express server
 └── README.md
