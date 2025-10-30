@@ -1,7 +1,7 @@
 const db = require("../config/db");
 
 const User = {
-  
+
   //All user
   getAll: () => db.query("SELECT * FROM users"),
 
@@ -26,6 +26,7 @@ const User = {
   // One user search by Id
   GetById: async (id) => {
     const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+    console.log("Rows:", rows);
     return rows[0];
   },
 

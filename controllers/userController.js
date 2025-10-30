@@ -28,14 +28,15 @@ exports.createUser = async (req, res) => {
     const existingUser = await User.GetByEmail(email);
     if (existingUser) {
       return res.status(409).json({
-        success: true,
+        success: false,
         message: "User already exists",
       });
     }
     // OtherWise, create a new user
-    const result = await User.create(name, email, address, role, is_active);
+    const [result] = await User.create(name, email, address, role, is_active);
 
     const newUser = await User.GetById(result.insertId);
+    console.log(newUser);
 
     res.status(201).send({
       success: true,
