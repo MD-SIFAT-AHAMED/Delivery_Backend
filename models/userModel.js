@@ -5,12 +5,20 @@ const User = {
   getAll: () => db.query("SELECT * FROM users"),
 
   // new user create
-  create: (name, email) =>
-    db.query("INSERT INTO users (name, email) VALUES (?, ?)", [name, email]),
+  create: (name, email, address, role, is_active) =>
+    db.query(
+      `
+      INSERT INTO users
+      (name,email,address,role,is_active)
+      VALUES(?,?,?,?,?)`,
+      [name, email, address, role, is_active]
+    ),
 
-  // one user search by id
-  getById: (id) => db.query("SELECT * FROM users WHERE id = ?", [id]),
-
+  // One user search by email
+ GetByEmail: async (email) => {
+  const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+  return rows[0];
+},
   // one user delete
   deleteById: (id) => db.query("DELETE FROM users WHERE id = ?", [id]),
 };

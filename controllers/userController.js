@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const User = require("../models/userModel");
 
 // Get all users
 exports.getAllUsers = async (req, res) => {
@@ -21,21 +22,28 @@ exports.getAllUsers = async (req, res) => {
 
 // Create new user
 exports.createUser = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, address, role, is_active } = req.body;
   try {
-    const data = await db.query("INSERT INTO users (name,email) VALUES (?.?)", [
-      name,
-      email,
-    ]);
+    // Check if the user already exists
+    const existingUser = await User.GetByEmail(email);
+    if (existingUser) {
+      return res.status(409).json({
+        success: true,
+        message: "User already exists",
+      });
+    }
+    // OtherWise, create a new user
+    const result = await User.create(name, email, address, role, is_active);
     res.status(201).send({
       success: true,
       message: "User Created Successfully",
-      data,
+      data: result,
     });
   } catch (error) {
-    res.status(500).send({
+    console.error("createUser error:", error);
+    res.status(500).json({
       success: false,
-      message: "Database Insert Error",
+      message: "Internal Server Error",
       error,
     });
   }
