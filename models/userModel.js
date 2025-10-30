@@ -1,6 +1,7 @@
 const db = require("../config/db");
 
 const User = {
+  
   //All user
   getAll: () => db.query("SELECT * FROM users"),
 
@@ -15,10 +16,19 @@ const User = {
     ),
 
   // One user search by email
- GetByEmail: async (email) => {
-  const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-  return rows[0];
-},
+  GetByEmail: async (email) => {
+    const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    return rows[0];
+  },
+
+  // One user search by Id
+  GetById: async (id) => {
+    const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+    return rows[0];
+  },
+
   // one user delete
   deleteById: (id) => db.query("DELETE FROM users WHERE id = ?", [id]),
 };

@@ -34,10 +34,13 @@ exports.createUser = async (req, res) => {
     }
     // OtherWise, create a new user
     const result = await User.create(name, email, address, role, is_active);
+
+    const newUser = await User.GetById(result.insertId);
+
     res.status(201).send({
       success: true,
       message: "User Created Successfully",
-      data: result,
+      data: newUser,
     });
   } catch (error) {
     console.error("createUser error:", error);
