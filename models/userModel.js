@@ -1,13 +1,12 @@
 const db = require("../config/db");
 
 const User = {
-
   //All user
   getAll: () => db.query("SELECT * FROM users"),
 
   // new user create
-  create: (name, email, address, role, is_active) =>
-    db.query(
+  create: async (name, email, address, role, is_active) =>
+    await db.query(
       `
       INSERT INTO users
       (name,email,address,role,is_active)

@@ -1,4 +1,3 @@
-const db = require("../config/db");
 const User = require("../models/userModel");
 
 // Get all users
@@ -35,13 +34,10 @@ exports.createUser = async (req, res) => {
     // OtherWise, create a new user
     const [result] = await User.create(name, email, address, role, is_active);
 
-    const newUser = await User.GetById(result.insertId);
-    console.log(newUser);
-
-    res.status(201).send({
+    res.status(201).json({
       success: true,
       message: "User Created Successfully",
-      data: newUser,
+      data: result,
     });
   } catch (error) {
     console.error("createUser error:", error);
