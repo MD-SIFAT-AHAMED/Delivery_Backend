@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const mySqlPool = require("./config/db");
+const mySqlPool = require("./src/config/db");
 
 dotenv.config();
 
@@ -19,8 +19,8 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api/v1/users", require("./routes/userRoutes"));
-app.use("/api/v1/riders", require("./routes/riderRoutes"));
+app.use("/api/v1/users", require("./src/routes/userRoutes"));
+app.use("/api/v1/riders", require("./src/routes/riderRoutes"));
 // app.use("/api/v1/riders", require("./routes/riderRoutes"));
 // app.use("/api/v1/parcels", require("./routes/parcelRoutes"));
 
