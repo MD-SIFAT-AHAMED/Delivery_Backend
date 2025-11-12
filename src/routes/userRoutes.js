@@ -3,6 +3,7 @@ const {
   getAllUsers,
   createUser,
   createJWT,
+  getOneUser,
 } = require("../controllers/userController");
 const {
   createUserValidator,
@@ -12,8 +13,8 @@ const { verifyToken } = require("../middlewares/authMiddlewares/verifyJWT");
 const router = express.Router();
 
 router.get("/", getAllUsers);
+router.get("/info/:email", getOneUser);
 router.post("/create-user", createUserValidator, createUser);
 router.post("/jwt", createJWT);
-
 
 module.exports = router;

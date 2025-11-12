@@ -1,12 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
 exports.validateRiderApplication = [
-  body("user_id")
-    .notEmpty()
-    .withMessage("User ID is required")
-    .isString()
-    .withMessage("User ID must be a string"),
-
   body("name")
     .notEmpty()
     .withMessage("Name is required")
@@ -48,7 +42,7 @@ exports.validateRiderApplication = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         message: "Validation failed",
         data: errors.array(),

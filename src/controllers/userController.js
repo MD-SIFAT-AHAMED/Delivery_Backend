@@ -1,3 +1,4 @@
+const db = require("../config/db");
 const User = require("../models/userModel");
 const { generateToken } = require("../utils/jwtHelper");
 
@@ -18,6 +19,13 @@ exports.getAllUsers = async (req, res) => {
       error,
     });
   }
+};
+
+exports.getOneUser = async (req, res) => {
+  const email = req.params.email;
+  const user = await User.GetByEmail(email);
+  console.log(user)
+  res.json(user);
 };
 
 // Create new user
@@ -59,7 +67,6 @@ exports.createJWT = async (req, res) => {
 
   try {
     const rows = await User.GetByEmail(email);
-    console.log(rows)
     if (rows.length === 0) {
       return res.status(404).json({ message: "User not found in database" });
     }
