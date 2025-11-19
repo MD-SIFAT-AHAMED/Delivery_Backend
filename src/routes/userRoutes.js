@@ -13,7 +13,7 @@ const { verifyToken } = require("../middlewares/authMiddlewares/verifyJWT");
 const router = express.Router();
 
 router.get("/", getAllUsers);
-router.get("/info/:email", getOneUser);
+router.get("/info/:email", verifyToken, getOneUser);
 router.post("/create-user", createUserValidator, createUser);
 router.post("/jwt", createJWT);
 

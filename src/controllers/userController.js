@@ -4,8 +4,15 @@ const { generateToken } = require("../utils/jwtHelper");
 
 // Get all users
 exports.getAllUsers = async (req, res) => {
+  let search = req.query.search?.trim();
   try {
-    const [data] = await db.query("SELECT * FROM  users");
+    let data;
+    if (search && search.length > 0) {
+      data = await User.getAll(search);
+    } else {
+      data = await User.getAll();
+    }
+
     res.status(200).send({
       success: true,
       message: "All User Records",
@@ -24,7 +31,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getOneUser = async (req, res) => {
   const email = req.params.email;
   const user = await User.GetByEmail(email);
-  console.log(user)
+  console.log(user);
   res.json(user);
 };
 
