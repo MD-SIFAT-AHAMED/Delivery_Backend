@@ -2,13 +2,27 @@ const db = require("../config/db");
 const rider = require("../models/riderModel");
 const User = require("../models/userModel");
 
+exports.getAllRider = async (req, res) => {
+  try {
+    const [riders] = await rider.getAll();
+  } catch (error) {}
+};
+
 exports.applyRider = async (req, res) => {
   const { age, contact, email, license, name, nid, region } = req.body;
 
   try {
     const existingUser = await User.GetByEmail(email);
     const user_id = existingUser ? existingUser.id : null;
-    
+
+    const alreadyExistingRider = await rider.getByEmail(email);
+    if (alreadyExistingRider) {
+      return res.status(409).json({
+        success: false,
+        message: "You already submitted a rider application.",
+      });
+    }
+
     const result = await rider.postRider(
       user_id,
       name,

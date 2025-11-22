@@ -28,7 +28,7 @@ const rider = {
     const [rows] = await db.query(
       "SELECT * FROM rider_applications ORDER BY applied_date DESC"
     );
-    return rows;
+    return rows[0];
   },
 
   // Get single application by id
@@ -38,6 +38,16 @@ const rider = {
       [id]
     );
     return rows[0];
+  },
+
+  // get single application by email
+  getByEmail: async (email) => {
+    const [row] = await db.query(
+      `
+      SELECT * FROM rider_applications WHERE email = ?`,
+      [email]
+    );
+    return row[0];
   },
 
   // Update application status (approve/reject)
