@@ -1,32 +1,4 @@
-const db = require("../config/db");
 const User = require("../models/userModel");
-
-
-// Get all users
-exports.getAllUsers = async (req, res) => {
-  let search = req.query.search?.trim();
-  try {
-    let data;
-    if (search && search.length > 0) {
-      data = await User.getAll(search);
-    } else {
-      data = await User.getAll();
-    }
-
-    res.status(200).send({
-      success: true,
-      message: "All User Records",
-      data,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Error in GET All User API",
-      error,
-    });
-  }
-};
 
 exports.getOneUser = async (req, res) => {
   const email = req.params.email;

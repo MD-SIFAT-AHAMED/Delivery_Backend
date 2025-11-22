@@ -19,8 +19,11 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api/v1/users", require("./src/routes/userRoutes"));
-app.use("/api/v1/riders", require("./src/routes/riderRoutes"));
+app.use("/api/v1/users", require("./src/routes/userRoute"));
+app.use("/api/v1/riders", require("./src/routes/riderRoute"));
+app.use("/api/v1/admin", require("./src/routes/adminRoute"));
+app.use("/api/v1/auth", require("./src/routes/authRoute"));
+
 // app.use("/api/v1/riders", require("./routes/riderRoutes"));
 // app.use("/api/v1/parcels", require("./routes/parcelRoutes"));
 

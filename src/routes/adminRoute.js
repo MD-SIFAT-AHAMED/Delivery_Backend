@@ -1,7 +1,12 @@
 const express = require("express");
-const { router } = require("./userRoute");
+const {
+  getAllUsers,
+  getAllRiderApplication,
+} = require("../controllers/adminController");
+const { verify } = require("jsonwebtoken");
 const router = express.Router();
 
-router.get("/", getAllUsers);
+router.get("/", verify, getAllUsers);
+router.get("/rider-application", getAllRiderApplication);
 
 module.exports = router;
