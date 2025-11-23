@@ -35,6 +35,17 @@ const Admin = {
       `);
     return row;
   },
+
+  // All Admin list
+  getAllAdmin: async () => {
+    const [row] = await db.query(`
+      SELECT *
+      FROM users
+      where role = "admin"
+      ORDER BY id
+      `);
+    return row;
+  },
 };
 
 module.exports = Admin;

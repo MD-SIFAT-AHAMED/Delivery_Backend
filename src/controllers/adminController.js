@@ -41,3 +41,20 @@ exports.getAllRiderApplication = async (req, res) => {
     });
   }
 };
+
+exports.getAllAdmin = async (req,res) => {
+  try {
+    const data = await Admin.getAllAdmin();
+    res.status(200).send({
+      success: true,
+      message: "All User Records",
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error in GET All Admin List API",
+      error,
+    });
+  }
+};
