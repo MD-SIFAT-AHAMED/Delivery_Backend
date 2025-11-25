@@ -25,6 +25,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+// Get all rider application
 exports.getAllRiderApplication = async (req, res) => {
   try {
     const data = await Admin.getAllRiderApplications();
@@ -42,6 +43,7 @@ exports.getAllRiderApplication = async (req, res) => {
   }
 };
 
+// Get all admin list
 exports.getAllAdmin = async (req,res) => {
   try {
     const data = await Admin.getAllAdmin();

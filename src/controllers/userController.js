@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const GenerateTrackingId = require("../utils/GenerateTrackingId");
 
 exports.getOneUser = async (req, res) => {
   const email = req.params.email;
@@ -33,6 +34,68 @@ exports.createUser = async (req, res) => {
       success: false,
       message: "Internal Server Error",
       error,
+    });
+  }
+};
+
+// Parcel info post
+exports.postParcel = async (req, res) => {
+  const {
+    title,
+    type,
+    weight,
+    cost,
+    senderName,
+    senderContact,
+    senderRegion,
+    senderCenter,
+    senderAddress,
+    pickupInstruction,
+    receiverName,
+    receiverContact,
+    receiverRegion,
+    receiverCenter,
+    receiverAddress,
+    deliveryInstruction,
+    created_by,
+    delivery_status,
+    payment_status,
+  } = req.body;
+  try {
+    const trackingId = GenerateTrackingId();
+    const data = await User.PostParcelInfo(
+      title,
+      type,
+      weight,
+      trackingId,
+      cost,
+      senderName,
+      senderContact,
+      senderRegion,
+      senderCenter,
+      senderAddress,
+      pickupInstruction,
+      receiverName,
+      receiverContact,
+      receiverRegion,
+      receiverCenter,
+      receiverAddress,
+      deliveryInstruction,
+      created_by,
+      delivery_status,
+      payment_status
+    );
+    res.status(200).json({
+      success: true,
+      message: "Parcel created successfully. Tracking ID generated.",
+      trackingId,
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
     });
   }
 };

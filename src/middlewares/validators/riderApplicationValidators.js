@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
-exports.validateRiderApplication = [
+exports.riderApplicationValidators = [
   body("name")
     .notEmpty()
     .withMessage("Name is required")
