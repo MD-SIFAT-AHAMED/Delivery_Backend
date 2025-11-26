@@ -13,16 +13,29 @@ const parcelValidators = [
     .isIn(["Document", "Non-Document"])
     .withMessage("Type must be either Document or Non-Document"),
 
-  body("weight")
-    .optional()
-    .isFloat({ min: 0 })
-    .withMessage("Weight must be a positive number"),
+  body("weight").custom((value, { req }) => {
+    if (
+      req.body.type === "Non-Document" &&
+      (value === undefined || value === null || value === "")
+    ) {
+      throw new Error("Weight is required for Non-Document parcels");
+    }
 
-  body("cost")
-    .notEmpty()
-    .withMessage("Cost is required")
-    .isFloat({ min: 0 })
-    .withMessage("Cost must be a positive number"),
+    if (value !== undefined && value !== null && value !== "") {
+      const floatVal = parseFloat(value);
+      if (isNaN(floatVal) || floatVal < 0) {
+        throw new Error("Weight must be a positive number");
+      }
+    }
+
+    return true;
+  }),
+
+  // body("cost")
+  //   .notEmpty()
+  //   .withMessage("Cost is required")
+  //   .isFloat({ min: 0 })
+  //   .withMessage("Cost must be a positive number"),
 
   body("senderName").notEmpty().withMessage("Sender name is required"),
   body("senderContact").notEmpty().withMessage("Sender contact is required"),

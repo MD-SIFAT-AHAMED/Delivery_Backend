@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const calculateCost = require("../utils/calculateCost");
 const GenerateTrackingId = require("../utils/GenerateTrackingId");
 
 exports.getOneUser = async (req, res) => {
@@ -54,16 +55,17 @@ exports.postParcel = async (req, res) => {
     receiverCenter,
     receiverAddress,
     deliveryInstruction,
-    weight,
-    cost,
+    weight = null,
     delivery_status,
     payment_status,
     created_by,
     trackingId,
   } = req.body;
+  const data = req.body;
 
   try {
     const trackingId = GenerateTrackingId();
+    const cost = calculateCost(data);
     await User.PostParcelInfo(
       type,
       title,
