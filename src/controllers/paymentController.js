@@ -65,38 +65,93 @@ exports.postPayment = async (req, res) => {
 };
 
 exports.PostSuccessPayment = async (req, res) => {
-  const { val_id, tracking_id } = req.body;
-  const { trackingId } = req.query;
+  const { val_id } = req.query; // SSLCommerz validation er jonno
+  const { trackingId } = req.query; // parcel identify korar jonno
 
-  const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+  try {
+    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+    const validConfirm = await sslcz.validate({ val_id });
 
-  const validConfrim = await sslcz.validate({ val_id });
-  const { tran_id, amount, status, tran_date } = validConfrim;
+    const { tran_id, amount, status, tran_date } = validConfirm;
 
-  if (validConfrim.status !== "VALID") {
-    res.send({
-      message: "Invalid Payment",
+    if (validConfirm.status !== "VALID") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Payment",
+      });
+    }
+
+    // Parcel payment_status update
+    await Payment.paymentUpdate(trackingId);
+
+    // Payment info save
+    await Payment.paymentInfo(
+      trackingId,
+      tran_id,
+      val_id,
+      amount,
+      status,
+      tran_date
+    );
+
+    // Frontend redirect URL return
+    res.status(200).json({
+      success: true,
+      message: "Payment successful",
+      redirectUrl: `/payment-success?trackingId=${trackingId}`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
     });
   }
-  // Parcel payment_status update
-  await Payment.paymentUpdate(trackingId);
-  //Payment info save
-  await Payment.paymentInfo(
-    trackingId,
-    tran_id,
-    val_id,
-    amount,
-    status,
-    tran_date
-  );
 };
 
 exports.postCancelPayment = async (req, res) => {
-  console.log(req.body);
   const { status } = req.body;
   const { trackingId } = req.query;
 
-  if (status === "CANCELLED") {
-    await Payment.parcleDelete(trackingId);
+  try {
+    if (status === "CANCELLED") {
+      await Payment.parcelDelete(trackingId);
+    }
+
+    // Success response before redirect
+    res.status(200).json({
+      success: true,
+      message: "Payment cancelled successfully",
+      redirectUrl: `/payment-cancel?trackingId=${trackingId}`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to cancel payment",
+      error: error.message,
+    });
+  }
+};
+
+exports.postPaymentFail = async (req, res) => {
+  console.log("fail paymetn", req.body);
+  const { status } = req.body;
+  const { trackingId } = req.query;
+  try {
+    if (status === "FAILED") {
+      await Payment.parcelDelete(trackingId);
+    }
+    // Success response before redirect
+    res.status(200).json({
+      success: true,
+      message: "Payment failed. Parcel deleted",
+      redirectUrl: `/payment-fail?trackingId=${trackingId}`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to cancel payment",
+      error: error.message,
+    });
   }
 };
