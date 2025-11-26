@@ -22,17 +22,13 @@ const User = {
   // One user search by Id
   GetById: async (id) => {
     const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [id]);
-    console.log("Rows:", rows);
     return rows[0];
   },
 
   // parcel info post
   PostParcelInfo: async (
-    title,
     type,
-    weight,
-    trackingId,
-    cost,
+    title,
     senderName,
     senderContact,
     senderRegion,
@@ -45,18 +41,18 @@ const User = {
     receiverCenter,
     receiverAddress,
     deliveryInstruction,
-    created_by,
+    weight,
+    cost,
     delivery_status,
-    payment_status
+    payment_status,
+    created_by,
+    trackingId
   ) => {
-    db.query(
+    await db.query(
       `
       INSERT INTO parcels
-      ( trackingId,
+      ( type,
       title,
-      type,
-      weight,
-      cost,
       senderName,
       senderContact,
       senderRegion,
@@ -69,16 +65,16 @@ const User = {
       receiverCenter,
       receiverAddress,
       deliveryInstruction,
-      created_by,
+      weight,
+      cost,
       delivery_status,
-      payment_status) VALUES 
+      payment_status,
+      created_by,
+      trackingId) VALUES 
       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        trackingId,
-        title,
         type,
-        weight,
-        cost,
+        title,
         senderName,
         senderContact,
         senderRegion,
@@ -91,9 +87,12 @@ const User = {
         receiverCenter,
         receiverAddress,
         deliveryInstruction,
-        created_by,
+        weight,
+        cost,
         delivery_status,
         payment_status,
+        created_by,
+        trackingId,
       ]
     );
   },

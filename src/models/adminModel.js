@@ -4,7 +4,6 @@ const Admin = {
   //All user ahow
   getAll: async (search) => {
     if (search && search.length > 0) {
-      console.log("Executing Search Query with terms:", search);
       let [row] = await db.query(
         `
           SELECT * FROM users

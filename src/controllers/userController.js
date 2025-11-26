@@ -4,7 +4,6 @@ const GenerateTrackingId = require("../utils/GenerateTrackingId");
 exports.getOneUser = async (req, res) => {
   const email = req.params.email;
   const user = await User.GetByEmail(email);
-  console.log(user);
   res.json(user);
 };
 
@@ -41,10 +40,8 @@ exports.createUser = async (req, res) => {
 // Parcel info post
 exports.postParcel = async (req, res) => {
   const {
-    title,
     type,
-    weight,
-    cost,
+    title,
     senderName,
     senderContact,
     senderRegion,
@@ -57,18 +54,19 @@ exports.postParcel = async (req, res) => {
     receiverCenter,
     receiverAddress,
     deliveryInstruction,
-    created_by,
+    weight,
+    cost,
     delivery_status,
     payment_status,
+    created_by,
+    trackingId,
   } = req.body;
+
   try {
     const trackingId = GenerateTrackingId();
-    const data = await User.PostParcelInfo(
-      title,
+    await User.PostParcelInfo(
       type,
-      weight,
-      trackingId,
-      cost,
+      title,
       senderName,
       senderContact,
       senderRegion,
@@ -81,15 +79,17 @@ exports.postParcel = async (req, res) => {
       receiverCenter,
       receiverAddress,
       deliveryInstruction,
-      created_by,
+      weight,
+      cost,
       delivery_status,
-      payment_status
+      payment_status,
+      created_by,
+      trackingId
     );
     res.status(200).json({
       success: true,
       message: "Parcel created successfully. Tracking ID generated.",
       trackingId,
-      data,
     });
   } catch (error) {
     res.status(500).json({

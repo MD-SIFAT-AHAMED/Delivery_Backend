@@ -57,7 +57,7 @@ const parcelValidators = [
   body("payment_status")
     .notEmpty()
     .withMessage("Payment status is required")
-    .isIn(["Paid", "UnPaid"])
+    .isIn(["Paid", "UnPaid", "pending"])
     .withMessage("Invalid payment status"),
 
   // Custom middleware to check validation result
