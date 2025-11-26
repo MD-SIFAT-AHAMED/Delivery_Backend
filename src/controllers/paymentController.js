@@ -2,6 +2,7 @@ const SslCommerzPayment = require("sslcommerz-lts/api/payment-controller");
 const generateTransId = require("../utils/generateTransId");
 const SSLCommerzPayment = require("sslcommerz-lts");
 const Payment = require("../models/PaymentModel");
+const calculateCost = require("../utils/calculateCost");
 
 const store_id = process.env.Store_ID;
 const store_passwd = process.env.Store_Password;
@@ -9,17 +10,16 @@ const is_live = false; //true for live, false for sandbox
 
 exports.postPayment = async (req, res) => {
   const payment = req.body;
-  console.log("payment id", payment.trackingId);
-
+  const cost = calculateCost(payment);
   try {
     const data = {
-      total_amount: payment.cost,
+      total_amount: cost,
       currency: "BDT",
       tran_id: generateTransId(),
       tracking_id: payment.trackingId,
       success_url: `http://localhost:5000/api/v1/payment/success-payment?trackingId=${payment.trackingId}`,
-      fail_url: "http://localhost:3030/fail",
-      cancel_url: "http://localhost:3030/cancel",
+      fail_url: `http://localhost:5000/api/v1/payment/fail-payment?trackingId=${payment.trackingId}`,
+      cancel_url: `http://localhost:5000/api/v1/payment/cancel-payment?trackingId=${payment.trackingId}`,
       ipn_url: "http://localhost:3030/ipn",
       shipping_method: "Courier",
       product_name: payment.title,
@@ -43,12 +43,13 @@ exports.postPayment = async (req, res) => {
       ship_postcode: 1000,
       ship_country: "Bangladesh",
     };
+    console.log(data);
 
     const sslcz = new SslCommerzPayment(store_id, store_passwd, is_live);
 
     const response = await sslcz.init(data);
     const GatewayPageURL = response.GatewayPageURL;
-    // console.log(response );
+    console.log(response);
     res.status(200).json({
       success: true,
       message: "Initiate create successfuly",
@@ -88,4 +89,14 @@ exports.PostSuccessPayment = async (req, res) => {
     status,
     tran_date
   );
+};
+
+exports.postCancelPayment = async (req, res) => {
+  console.log(req.body);
+  const { status } = req.body;
+  const { trackingId } = req.query;
+
+  if (status === "CANCELLED") {
+    await Payment.parcleDelete(trackingId);
+  }
 };

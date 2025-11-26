@@ -27,6 +27,12 @@ const Payment = {
     `,
       [trackingId, tran_id, val_id, amount, status, tran_date]
     ),
+
+  parcleDelete: async (trackingId) =>
+    db.query(`
+        DELETE FROM parcels
+        WHERE trackingId = ?
+        `,[trackingId]),
 };
 
 module.exports = Payment;
