@@ -1,3 +1,4 @@
+const db = require("../config/db");
 const Admin = require("../models/adminModel");
 
 // Get all users
@@ -74,6 +75,40 @@ exports.getAllParcels = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error in Get All Parcel list API",
+      error: error.message,
+    });
+  }
+};
+
+// Aprrpve Rider
+exports.approveRider = async (req, res) => {
+  const { userEmail } = req.body;
+  let conn;
+  try {
+    conn = await db.getConnection();
+    await conn.beginTransaction();
+    //Update user role
+    await Admin.putUserRole(conn, userEmail);
+    // Update rider application status
+    await Admin.putRiderStatus(conn, userEmail);
+
+    // All ok then commit
+    await conn.commit();
+    conn.release();
+
+    res.status(200).json({
+      success: true,
+      message: "User role & Rider status update successfuly",
+    });
+  } catch (error) {
+    if (conn) {
+      await conn.rollback();
+      conn.release();
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Approve failed",
       error: error.message,
     });
   }

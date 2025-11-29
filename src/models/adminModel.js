@@ -55,6 +55,29 @@ const Admin = {
       `);
     return row;
   },
+
+  // Update user role
+  putUserRole: async (conn, userEmail) => {
+    await conn.query(
+      `
+      UPDATE users
+      SET role = "rider"
+      WHERE email = ?
+      `,
+      [userEmail]
+    );
+  },
+  // Update rider Application status
+  putRiderStatus: async (conn, userEmail) => {
+    await conn.query(
+      `
+        UPDATE rider_applications
+        SET status = "approved"
+        WHERE email = ?
+        `,
+      [userEmail]
+    );
+  },
 };
 
 module.exports = Admin;
