@@ -45,6 +45,16 @@ const Admin = {
       `);
     return row;
   },
+
+  // All Parcel list
+  getAllParcel: async () => {
+    const [row] = await db.query(`
+      SELECT *
+      FROM parcels
+      ORDER BY id
+      `);
+    return row;
+  },
 };
 
 module.exports = Admin;

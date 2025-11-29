@@ -44,7 +44,7 @@ exports.getAllRiderApplication = async (req, res) => {
 };
 
 // Get all admin list
-exports.getAllAdmin = async (req,res) => {
+exports.getAllAdmin = async (req, res) => {
   try {
     const data = await Admin.getAllAdmin();
     res.status(200).send({
@@ -57,6 +57,24 @@ exports.getAllAdmin = async (req,res) => {
       success: false,
       message: "Error in GET All Admin List API",
       error,
+    });
+  }
+};
+
+// Get all parcels
+exports.getAllParcels = async (req, res) => {
+  try {
+    const data = await Admin.getAllParcel();
+    res.status(200).json({
+      success: true,
+      message: "All Parcels Records",
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error in Get All Parcel list API",
+      error: error.message,
     });
   }
 };
