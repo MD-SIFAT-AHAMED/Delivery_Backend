@@ -133,3 +133,20 @@ exports.rejectRider = async (req, res) => {
     });
   }
 };
+
+// Delete Rider Application
+exports.deleteRider = async (req, res) => {
+  const { userEmail } = req.body;
+  try {
+    await Admin.deleteRiderAppication(userEmail);
+    res.status(200).json({
+      success: true,
+      message: "Rider Application delete successfuly",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Rider Appication delete Failed",
+    });
+  }
+};

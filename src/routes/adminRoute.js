@@ -6,6 +6,7 @@ const {
   getAllParcels,
   approveRider,
   rejectRider,
+  deleteRider,
 } = require("../controllers/adminController");
 const { verify } = require("jsonwebtoken");
 const router = express.Router();
@@ -14,7 +15,8 @@ router.get("/", verify, getAllUsers);
 router.get("/rider-application", verify, getAllRiderApplication);
 router.get("/adminList", getAllAdmin);
 router.get("/get-all-parcels", getAllParcels);
-router.put("/approve-rider", approveRider);
-router.put("/reject-rider", rejectRider);
+router.put("/approve-riderAppilcation", approveRider);
+router.put("/reject-riderAppilcation", rejectRider);
+router.delete("/delete-riderAppilcation", deleteRider);
 
 module.exports = router;

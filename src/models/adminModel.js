@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { deleteRider } = require("../controllers/adminController");
 
 const Admin = {
   //All user ahow
@@ -86,6 +87,17 @@ const Admin = {
       `
       UPDATE rider_applications
       SET status = "rejected"
+      WHERE email = ?
+      `,
+      [userEmail]
+    );
+  },
+
+  // Delete rider appicaiton
+  deleteRiderAppication: async (userEmail) => {
+    await db.query(
+      `
+      DELETE FROM rider_applications
       WHERE email = ?
       `,
       [userEmail]
