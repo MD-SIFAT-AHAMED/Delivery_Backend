@@ -1,3 +1,4 @@
+const { json } = require("express");
 const db = require("../config/db");
 const Admin = require("../models/adminModel");
 
@@ -90,7 +91,7 @@ exports.approveRider = async (req, res) => {
     //Update user role
     await Admin.putUserRole(conn, userEmail);
     // Update rider application status
-    await Admin.putRiderStatus(conn, userEmail);
+    await Admin.putRiderStatusApproved(conn, userEmail);
 
     // All ok then commit
     await conn.commit();
@@ -109,6 +110,25 @@ exports.approveRider = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Approve failed",
+      error: error.message,
+    });
+  }
+};
+
+// Reject Rider
+exports.rejectRider = async (req, res) => {
+  const { userEmail } = req.body;
+  try {
+    await Admin.putRiderStatusReject(userEmail);
+
+    res.status(200).json({
+      success: true,
+      message: "Rider status update successfuly",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Rider Reject Failed",
       error: error.message,
     });
   }

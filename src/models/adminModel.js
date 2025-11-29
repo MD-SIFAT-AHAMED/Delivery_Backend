@@ -67,14 +67,27 @@ const Admin = {
       [userEmail]
     );
   },
-  // Update rider Application status
-  putRiderStatus: async (conn, userEmail) => {
+
+  // Update rider Application status is approve
+  putRiderStatusApproved: async (conn, userEmail) => {
     await conn.query(
       `
         UPDATE rider_applications
         SET status = "approved"
         WHERE email = ?
         `,
+      [userEmail]
+    );
+  },
+
+  // Update rider application Status is rejected
+  putRiderStatusReject: async (userEmail) => {
+    await db.query(
+      `
+      UPDATE rider_applications
+      SET status = "rejected"
+      WHERE email = ?
+      `,
       [userEmail]
     );
   },
