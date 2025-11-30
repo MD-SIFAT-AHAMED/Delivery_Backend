@@ -150,3 +150,21 @@ exports.deleteRider = async (req, res) => {
     });
   }
 };
+
+exports.getRiderInfo = async (req, res) => {
+  const { userEmail } = req.body;
+  try {
+    const result = await Admin.getRiderInfo(userEmail);
+    res.status(200).json({
+      success: true,
+      message: "Get Rider info successfuly",
+      data: result,
+    });
+  } catch (error) {
+    res.send(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};

@@ -103,6 +103,19 @@ const Admin = {
       [userEmail]
     );
   },
+
+  // Get single rider info
+  getRiderInfo: async (userEmail) => {
+    const [row] = await db.query(
+      `
+      SELECT *
+      FROM rider_applications
+      WHERE email = ?
+      `,
+      [userEmail]
+    );
+    return row;
+  },
 };
 
 module.exports = Admin;
