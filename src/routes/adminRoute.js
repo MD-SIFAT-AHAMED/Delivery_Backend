@@ -8,6 +8,8 @@ const {
   rejectRider,
   deleteRider,
   getRiderInfo,
+  getuserInfo,
+  deleteUser,
 } = require("../controllers/adminController");
 const { verify } = require("jsonwebtoken");
 const router = express.Router();
@@ -20,5 +22,7 @@ router.get("/rider-info", getRiderInfo);
 router.put("/approve-riderAppilcation", approveRider);
 router.put("/reject-riderAppilcation", rejectRider);
 router.delete("/delete-riderAppilcation", deleteRider);
+router.get("/user-info", getuserInfo);
+router.delete("/delete-user", deleteUser);
 
 module.exports = router;

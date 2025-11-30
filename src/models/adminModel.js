@@ -117,6 +117,30 @@ const Admin = {
     );
     return row;
   },
+
+  //Get singler user info
+  getUserInfo: async (userEmail) => {
+    const [row] = await db.query(
+      `
+      SELECT name, email, address, role, is_active, create_at, update_at
+      FROM users
+      WHERE email = ?
+    `,
+      [userEmail]
+    );
+    return row;
+  },
+
+  // Delete user
+  deleteUser: async (userEmail) => {
+    await db.query(
+      `
+      DELETE FROM users
+      WHERE email = ?
+      `,
+      [userEmail]
+    );
+  },
 };
 
 module.exports = Admin;

@@ -168,3 +168,38 @@ exports.getRiderInfo = async (req, res) => {
     });
   }
 };
+
+exports.getuserInfo = async (req, res) => {
+  const { userEmail } = req.query;
+  try {
+    const result = await Admin.getUserInfo(userEmail);
+    res.status(200).json({
+      success: true,
+      message: "Get User info successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  const { userEmail } = req.query;
+  try {
+    await Admin.deleteUser(userEmail);
+    res.status(200).json({
+      success: true,
+      message: "Delete User successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
