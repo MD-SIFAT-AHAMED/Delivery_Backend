@@ -108,9 +108,10 @@ const Admin = {
   getRiderInfo: async (userEmail) => {
     const [row] = await db.query(
       `
-      SELECT *
+      SELECT name, email, region, contact, nid, license, status, applied_date, update_at, age
       FROM rider_applications
       WHERE email = ?
+      limit 1
       `,
       [userEmail]
     );

@@ -152,7 +152,7 @@ exports.deleteRider = async (req, res) => {
 };
 
 exports.getRiderInfo = async (req, res) => {
-  const { userEmail } = req.body;
+  const { userEmail } = req.query;
   try {
     const result = await Admin.getRiderInfo(userEmail);
     res.status(200).json({
@@ -161,7 +161,7 @@ exports.getRiderInfo = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.send(500).json({
+    res.status(500).json({
       success: false,
       message: "Internal Server Error",
       error: error.message,
