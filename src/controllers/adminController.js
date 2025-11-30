@@ -136,7 +136,7 @@ exports.rejectRider = async (req, res) => {
 
 // Delete Rider Application
 exports.deleteRider = async (req, res) => {
-  const { userEmail } = req.body;
+  const { userEmail } = req.query;
   try {
     await Admin.deleteRiderAppication(userEmail);
     res.status(200).json({
