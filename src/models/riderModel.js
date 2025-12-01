@@ -2,23 +2,14 @@ const db = require("../config/db");
 
 const rider = {
   // Rider application
-  postRider: async (
-    user_id,
-    name,
-    age,
-    email,
-    region,
-    contact,
-    nid,
-    license
-  ) => {
+  postRider: async (name, age, email, region, contact, nid, license) => {
     const [result] = await db.query(
       `
         INSERT INTO rider_applications
-        (user_id, name, age, email, region, contact, nid, license)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ( name, age, email, region, contact, nid, license)
+        VALUES ( ?, ?, ?, ?, ?, ?, ?)
         `,
-      [user_id, name, age, email, region, contact, nid, license]
+      [name, age, email, region, contact, nid, license]
     );
     return result;
   },

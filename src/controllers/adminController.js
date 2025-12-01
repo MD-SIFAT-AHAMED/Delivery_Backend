@@ -203,3 +203,38 @@ exports.deleteUser = async (req, res) => {
     });
   }
 };
+
+exports.getParcelInfo = async (req, res) => {
+  const { trakingId } = req.query;
+  try {
+    const data = await Admin.getParcleInfo(trakingId);
+    res.status(200).json({
+      success: true,
+      message: "Get Parcle info successfully",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
+exports.deleteParcel = async (req, res) => {
+  const { trakingId } = req.query;
+  try {
+    await Admin.deleteParcel(trakingId);
+    res.status(200).json({
+      success: true,
+      message: "Parcel delete successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: true,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};

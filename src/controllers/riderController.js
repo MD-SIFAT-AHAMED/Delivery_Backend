@@ -12,9 +12,6 @@ exports.applyRider = async (req, res) => {
   const { age, contact, email, license, name, nid, region } = req.body;
 
   try {
-    const existingUser = await User.GetByEmail(email);
-    const user_id = existingUser ? existingUser.id : null;
-
     const alreadyExistingRider = await rider.getByEmail(email);
     if (alreadyExistingRider) {
       return res.status(409).json({
@@ -24,7 +21,6 @@ exports.applyRider = async (req, res) => {
     }
 
     const result = await rider.postRider(
-      user_id,
       name,
       age,
       email,
@@ -33,7 +29,7 @@ exports.applyRider = async (req, res) => {
       nid,
       license
     );
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: "Rider aplication successfuly",
       data: result,

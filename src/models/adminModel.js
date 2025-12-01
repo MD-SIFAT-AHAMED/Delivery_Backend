@@ -141,6 +141,30 @@ const Admin = {
       [userEmail]
     );
   },
+
+  // Parcel info
+  getParcleInfo: async (trakingId) => {
+    const [row] = await db.query(
+      `
+      SELECT trackingId, title, type, weight, cost, senderName, senderContact, senderRegion, senderCenter, senderAddress, pickupInstruction, receiverName, receiverContact, receiverRegion, receiverCenter, receiverAddress, deliveryInstruction, created_by, delivery_status, payment_status, created_at, updated_at
+      FROM parcels
+      WHERE trackingId = ?
+      `,
+      [trakingId]
+    );
+    return row;
+  },
+
+  // Delete parcle
+  deleteParcel: async (trakingId) => {
+    await db.query(
+      `
+      DELETE FROM parcels
+      WHERE trackingId = ?
+      `,
+      [trakingId]
+    );
+  },
 };
 
 module.exports = Admin;
