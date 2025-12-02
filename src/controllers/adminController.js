@@ -238,3 +238,21 @@ exports.deleteParcel = async (req, res) => {
     });
   }
 };
+
+exports.patchStatusUpdate = async (req, res) => {
+  const { id } = req.params;
+  const { delivery_status } = req.body;
+  try {
+    await Admin.pathcStatusUpdate(delivery_status, id);
+    res.status(200).json({
+      success: true,
+      message: "Patch update Successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};

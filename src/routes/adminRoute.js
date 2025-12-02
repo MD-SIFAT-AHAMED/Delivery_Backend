@@ -12,6 +12,7 @@ const {
   deleteUser,
   getParcelInfo,
   deleteParcel,
+  patchStatusUpdate,
 } = require("../controllers/adminController");
 const { verify } = require("jsonwebtoken");
 const router = express.Router();
@@ -28,5 +29,6 @@ router.get("/user-info", getuserInfo);
 router.delete("/delete-user", deleteUser);
 router.get("/parcel-info", getParcelInfo);
 router.delete("/delete-parcel", deleteParcel);
+router.patch("/update-status:id", patchStatusUpdate);
 
 module.exports = router;

@@ -165,6 +165,18 @@ const Admin = {
       [trakingId]
     );
   },
+
+  //parcel Status update
+  pathcStatusUpdate: async (delivery_status, id) => {
+    await db.query(
+      `
+      UPDATE parcels
+      SET delivery_status = ?
+      WHERE id = ?
+      `,
+      [delivery_status, id]
+    );
+  },
 };
 
 module.exports = Admin;
