@@ -187,6 +187,31 @@ const Admin = {
       `);
     return row;
   },
+
+  // Get total Summary
+  getTotalSummary: async () => {
+    const [row] = await db.query(`
+      
+    SELECT
+        -- Parcels
+        (SELECT COUNT(*) FROM parcels) AS totalParcels,
+        (SELECT COUNT(*) FROM parcels WHERE delivery_status = 'Pending') AS pending,
+        (SELECT COUNT(*) FROM parcels WHERE delivery_status = 'Assigned') AS assigned,
+        (SELECT COUNT(*) FROM parcels WHERE delivery_status = 'Picked') AS picked,
+        (SELECT COUNT(*) FROM parcels WHERE delivery_status = 'In_transit') AS inTransit,
+        (SELECT COUNT(*) FROM parcels WHERE delivery_status = 'Delivered') AS delivered,
+
+        -- Payments
+        (SELECT COUNT(*) FROM parcels WHERE payment_status = 'Paid') AS paid,
+        (SELECT COUNT(*) FROM parcels WHERE payment_status = 'UnPaid') AS unpaid,
+
+        -- Riders / Users
+        (SELECT COUNT(*) FROM users WHERE role = 'rider') AS totalRiders,
+        (SELECT COUNT(*) FROM rider_applications WHERE status = 'pending') AS pendingRiderApps;
+
+      `);
+    return row;
+  },
 };
 
 module.exports = Admin;

@@ -273,3 +273,20 @@ exports.getPaymentHistory = async (req, res) => {
     });
   }
 };
+
+exports.getTotalSummary = async (req, res) => {
+  try {
+    const result = await Admin.getTotalSummary();
+    res.status(200).json({
+      success: true,
+      message: "Get Total Summary Successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Problem",
+      error: error.message,
+    });
+  }
+};
