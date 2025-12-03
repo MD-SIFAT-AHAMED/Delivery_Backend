@@ -64,7 +64,14 @@ const parcelValidators = [
   body("delivery_status")
     .notEmpty()
     .withMessage("Delivery status is required")
-    .isIn(["Not_collected", "In-transit", "Delivered"])
+    .isIn([
+      "Pending",
+      "Assigned",
+      "Picked",
+      "In_transit",
+      "Delivered",
+      "Cancelled",
+    ])
     .withMessage("Invalid delivery status"),
 
   body("payment_status")

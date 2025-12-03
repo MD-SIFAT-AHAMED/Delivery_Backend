@@ -13,7 +13,7 @@ const Payment = {
     ),
 
   // Payment info save
-  paymentInfo: async (trackingId, tran_id, val_id, amount, status, tran_date) =>
+  paymentInfo: async (trackingId, tran_id, val_id, amount, status, tran_date,card_type) =>
     db.query(
       `
         INSERT INTO payments (
@@ -22,10 +22,11 @@ const Payment = {
         val_id,
         amount,
         status,
-        payment_date
-        ) VALUES (?,?,?,?,?,?)
+        payment_date,
+        card_type
+        ) VALUES (?,?,?,?,?,?,?)
     `,
-      [trackingId, tran_id, val_id, amount, status, tran_date]
+      [trackingId, tran_id, val_id, amount, status, tran_date,card_type]
     ),
 
   parcleDelete: async (trackingId) =>

@@ -74,8 +74,8 @@ exports.PostSuccessPayment = async (req, res) => {
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     const validConfirm = await sslcz.validate({ val_id });
 
-    const { tran_id, amount, status, tran_date } = validConfirm;
-
+    const { tran_id, amount, status, tran_date,card_type } = validConfirm;
+    console.log(validConfirm);
     if (validConfirm.status !== "VALID") {
       return res.status(400).json({
         success: false,
@@ -93,7 +93,8 @@ exports.PostSuccessPayment = async (req, res) => {
       val_id,
       amount,
       status,
-      tran_date
+      tran_date,
+      card_type
     );
 
     // 3. Frontend success page e redirect

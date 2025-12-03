@@ -177,6 +177,16 @@ const Admin = {
       [delivery_status, id]
     );
   },
+
+  //Get All Payment history
+  getPaymentHistory: async () => {
+    const [row] = await db.query(`
+      SELECT id, parcel_trackingId, card_type, tran_id, val_id, amount, status, payment_date, created_at, updated_at
+      FROM payments
+      ORDER BY created_at DESC
+      `);
+    return row;
+  },
 };
 
 module.exports = Admin;
