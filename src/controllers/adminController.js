@@ -65,8 +65,10 @@ exports.getAllAdmin = async (req, res) => {
 
 // Get all parcels
 exports.getAllParcels = async (req, res) => {
+  const { delivery_status, payment_status, region } = req.query;
+  console.log(delivery_status, payment_status, region);
   try {
-    const data = await Admin.getAllParcel();
+    const data = await Admin.getAllParcel( delivery_status, payment_status, region);
     res.status(200).json({
       success: true,
       message: "All Parcels Records",
@@ -280,6 +282,42 @@ exports.getTotalSummary = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Get Total Summary Successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Problem",
+      error: error.message,
+    });
+  }
+};
+// assigned_rider_id
+exports.getApproveRider = async (req, res) => {
+  try {
+    const result = await Admin.getApproveRider();
+    res.status(200).json({
+      success: true,
+      message: "Get Approve rider Successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Problem",
+      error: error.message,
+    });
+  }
+};
+exports.patchAssignRider = async (req, res) => {
+  const { riderId } = req.body;
+  const { parcelId } = req.params;
+  console.log(riderId, parcelId);
+  try {
+    const result = await Admin.patchAssignRider(riderId, parcelId);
+    res.status(200).json({
+      success: true,
+      message: "Patch Assign rider Successfully",
       data: result,
     });
   } catch (error) {

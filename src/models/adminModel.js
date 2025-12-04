@@ -48,12 +48,14 @@ const Admin = {
   },
 
   // All Parcel list
-  getAllParcel: async () => {
-    const [row] = await db.query(`
-      SELECT *
-      FROM parcels
-      ORDER BY id
-      `);
+  getAllParcel: async (delivery_status, payment_status, region) => {
+    let sql = `SELECT * FROM parcels WHERE 1=1`;
+    if (delivery_status) sql += ` AND delivery_status='${delivery_status}'`;
+    if (payment_status) sql += ` AND payment_status='${payment_status}'`;
+    if (region) sql += ` AND senderRegion='${region}'`;
+    sql += " ORDER BY id DESC";
+
+    const [row] = await db.query(sql);
     return row;
   },
 
@@ -210,6 +212,29 @@ const Admin = {
         (SELECT COUNT(*) FROM rider_applications WHERE status = 'pending') AS pendingRiderApps;
 
       `);
+    return row;
+  },
+
+  // Get approve rider
+  getApproveRider: async () => {
+    const [row] = await db.query(`
+      SELECT *
+      FROM rider_applications
+      WHERE status = "approved"
+      `);
+    return row;
+  },
+  // Patch assign rider
+  patchAssignRider: async (riderId, parcelId) => {
+    const [row] = await db.query(
+      `
+      UPDATE parcels 
+      SET assigned_rider_id = ?,
+      delivery_status = "Assigned"
+      WHERE id = ?
+      `,
+      [riderId, parcelId]
+    );
     return row;
   },
 };

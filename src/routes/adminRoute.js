@@ -15,6 +15,8 @@ const {
   patchStatusUpdate,
   getPaymentHistory,
   getTotalSummary,
+  getApproveRider,
+  patchAssignRider,
 } = require("../controllers/adminController");
 const { verify } = require("jsonwebtoken");
 const router = express.Router();
@@ -34,5 +36,7 @@ router.delete("/delete-parcel", deleteParcel);
 router.patch("/update-status/:id", patchStatusUpdate);
 router.get("/payment-history", getPaymentHistory);
 router.get("/total-summary", getTotalSummary);
+router.get("/approve-rider", getApproveRider);
+router.patch("/assign-rider/:parcelId", patchAssignRider);
 
 module.exports = router;
