@@ -3,6 +3,7 @@ const {
   createUser,
   getOneUser,
   postParcel,
+  getMyParcel,
 } = require("../controllers/userController");
 const {
   createUserValidator,
@@ -15,5 +16,6 @@ const router = express.Router();
 router.get("/info/:email", verifyToken, getOneUser);
 router.post("/create-user", createUserValidator, createUser);
 router.post("/parcel", parcelValidators, postParcel);
+router.get("/my-parcel", getMyParcel);
 
 module.exports = router;

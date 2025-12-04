@@ -101,3 +101,21 @@ exports.postParcel = async (req, res) => {
     });
   }
 };
+
+exports.getMyParcel = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const result = await User.getMyParcel(email);
+    res.status(200).json({
+      success: true,
+      message: "Get My parcel is Successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: true,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
