@@ -26,13 +26,11 @@ const Admin = {
   },
 
   // All rider application
-  getAllRiderApplications: async () => {
-    const [row] = await db.query(`
-      SELECT *
-      FROM rider_applications
-      WHERE status = "pending"
-      ORDER BY id
-      `);
+  getAllRiderApplications: async (status) => {
+    let sql = ` SELECT * FROM rider_applications WHERE 1=1 `;
+    if (status) sql += ` AND status = '${status}'`;
+    sql += `ORDER BY id`;
+    const [row] = await db.query(sql);
     return row;
   },
 

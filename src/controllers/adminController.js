@@ -29,8 +29,9 @@ exports.getAllUsers = async (req, res) => {
 
 // Get all rider application
 exports.getAllRiderApplication = async (req, res) => {
+  const { status } = req.query;
   try {
-    const data = await Admin.getAllRiderApplications();
+    const data = await Admin.getAllRiderApplications(status);
     res.status(200).send({
       success: true,
       message: "All User Records",
@@ -68,7 +69,11 @@ exports.getAllParcels = async (req, res) => {
   const { delivery_status, payment_status, region } = req.query;
   console.log(delivery_status, payment_status, region);
   try {
-    const data = await Admin.getAllParcel( delivery_status, payment_status, region);
+    const data = await Admin.getAllParcel(
+      delivery_status,
+      payment_status,
+      region
+    );
     res.status(200).json({
       success: true,
       message: "All Parcels Records",
