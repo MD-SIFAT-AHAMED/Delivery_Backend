@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const calculateCost = require("../utils/calculateCost");
-const GenerateTrackingId = require("../utils/generateTrackingId");
+const GenerateTrackingId = require("../utils/GenerateTrackingId");
 
 exports.getOneUser = async (req, res) => {
   const email = req.params.email;
