@@ -12,10 +12,11 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
+app.use(
+  cors({
     origin: process.env.FRONTEND_URL,
-    credentials: true,
-}));
+  })
+);
 
 // Test Route
 app.get("/", (req, res) => {
@@ -32,4 +33,6 @@ app.use("/api/v1/payment", require("./src/routes/paymentRoute"));
 // Server Listen
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`Server running on port ${PORT}`)
+);
