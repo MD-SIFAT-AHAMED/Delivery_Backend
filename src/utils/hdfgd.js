@@ -8,3 +8,5 @@ const GenerateTrackingId = () => {
   return `${prefix}-${timestamp}-${randomStr}`;
 };
 module.exports = GenerateTrackingId;
+
+GenerateTrackingId.js
