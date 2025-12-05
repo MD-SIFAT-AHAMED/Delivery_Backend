@@ -9,4 +9,3 @@ const GenerateTrackingId = () => {
 };
 module.exports = GenerateTrackingId;
 
-GenerateTrackingId.js
