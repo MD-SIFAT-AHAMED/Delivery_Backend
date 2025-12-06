@@ -1,5 +1,9 @@
 const express = require("express");
-const { applyRider, getAllRider } = require("../controllers/riderController");
+const {
+  applyRider,
+  getAllRider,
+  getAssignParcel,
+} = require("../controllers/riderController");
 const {
   riderApplicationValidators,
 } = require("../middlewares/validators/riderApplicationValidators");
@@ -14,5 +18,6 @@ router.post(
   verifyToken,
   applyRider
 );
+router.get("/assign-parcel", getAssignParcel);
 
 module.exports = router;

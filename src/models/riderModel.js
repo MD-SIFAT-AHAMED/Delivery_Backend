@@ -54,6 +54,32 @@ const rider = {
     return result;
   },
 
+  // Get Rider id
+  getRiderId: async (email) => {
+    const id = db.query(
+      `
+      SELECT id
+      FROM rider_applications
+      WHERE email = ?
+      `,
+      [email]
+    );
+    return id;
+  },
+
+  // Get assign all parcel
+  getAssignparcel: async (riderId) => {
+    const [row] = db.query(
+      `
+      SELECT trackingId, title, type, weight, senderName, senderContact, senderRegion, senderCenter, senderAddress, pickupInstruction, receiverName, receiverContact, receiverRegion, receiverCenter, receiverAddress, deliveryInstruction, created_by, delivery_status, payment_status, created_at, updated_at
+      FROM parcels
+      WHERE assigned_rider_id = ?
+      
+      `[riderId]
+    );
+    return row;
+  },
+
   // Delete application
   deleteById: async (id) => {
     const [result] = await db.query(

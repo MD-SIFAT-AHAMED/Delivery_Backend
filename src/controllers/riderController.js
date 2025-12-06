@@ -2,12 +2,6 @@ const db = require("../config/db");
 const rider = require("../models/riderModel");
 const User = require("../models/userModel");
 
-exports.getAllRider = async (req, res) => {
-  try {
-    const [riders] = await rider.getAll();
-  } catch (error) {}
-};
-
 exports.applyRider = async (req, res) => {
   const { age, contact, email, license, name, nid, region } = req.body;
 
@@ -39,6 +33,25 @@ exports.applyRider = async (req, res) => {
       success: false,
       message: "Internal Server Error",
       error,
+    });
+  }
+};
+
+exports.getAssignParcel = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const riderId = await rider.getRiderId(email);
+    const result = await rider.getAssignparcel(riderId);
+    res.status(200).json({
+      success: true,
+      message: "Get All Assign parcel successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
     });
   }
 };
