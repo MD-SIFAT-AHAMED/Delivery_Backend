@@ -11,9 +11,10 @@ exports.getOneUser = async (req, res) => {
 // Create new user
 exports.createUser = async (req, res) => {
   const { name, email, address, role, is_active } = req.body;
+  const lowerCaseEmail = email.toLowerCase()
   try {
     // Check if the user already exists
-    const existingUser = await User.GetByEmail(email);
+    const existingUser = await User.GetByEmail(lowerCaseEmail);
     if (existingUser) {
       return res.status(409).json({
         success: false,
@@ -21,7 +22,7 @@ exports.createUser = async (req, res) => {
       });
     }
     // OtherWise, create a new user
-    const [result] = await User.create(name, email, address, role, is_active);
+    const [result] = await User.create(name, lowerCaseEmail, address, role, is_active);
 
     res.status(201).json({
       success: true,

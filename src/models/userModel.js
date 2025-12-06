@@ -2,13 +2,13 @@ const db = require("../config/db");
 
 const User = {
   // new user create
-  create: async (name, email, address, role, is_active) =>
+  create: async (name, lowerCaseEmail, address, role, is_active) =>
     await db.query(
       `
       INSERT INTO users
       (name,email,address,role,is_active)
       VALUES(?,?,?,?,?)`,
-      [name, email, address, role, is_active]
+      [name, lowerCaseEmail, address, role, is_active]
     ),
 
   // One user search by email
