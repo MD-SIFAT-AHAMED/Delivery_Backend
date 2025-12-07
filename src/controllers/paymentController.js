@@ -19,10 +19,10 @@ exports.postPayment = async (req, res) => {
       currency: "BDT",
       tran_id: generateTransId(),
       tracking_id: payment.trackingId,
-      success_url: `http://localhost:5000/api/v1/payment/success-payment?trackingId=${payment.trackingId}`,
-      fail_url: `http://localhost:5000/api/v1/payment/fail-payment?trackingId=${payment.trackingId}`,
-      cancel_url: `http://localhost:5000/api/v1/payment/cancel-payment?trackingId=${payment.trackingId}`,
-      ipn_url: "http://localhost:3030/ipn",
+      success_url: `${FRONTEND_URL}/api/v1/payment/success-payment?trackingId=${payment.trackingId}`,
+      fail_url: `${FRONTEND_URL}/api/v1/payment/fail-payment?trackingId=${payment.trackingId}`,
+      cancel_url: `${FRONTEND_URL}/api/v1/payment/cancel-payment?trackingId=${payment.trackingId}`,
+      ipn_url: `${FRONTEND_URL}/ipn`,
       shipping_method: "Courier",
       product_name: payment.title,
       product_category: payment.type,
@@ -74,7 +74,7 @@ exports.PostSuccessPayment = async (req, res) => {
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     const validConfirm = await sslcz.validate({ val_id });
 
-    const { tran_id, amount, status, tran_date,card_type } = validConfirm;
+    const { tran_id, amount, status, tran_date, card_type } = validConfirm;
     console.log(validConfirm);
     if (validConfirm.status !== "VALID") {
       return res.status(400).json({
