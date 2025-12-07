@@ -56,7 +56,7 @@ const rider = {
 
   // Get Rider id
   getRiderId: async (email) => {
-    const id = db.query(
+    const [rows] = await db.query(
       `
       SELECT id
       FROM rider_applications
@@ -64,20 +64,22 @@ const rider = {
       `,
       [email]
     );
-    return id;
+    console.log(rows);
+    return rows[0]?.id;
   },
 
   // Get assign all parcel
   getAssignparcel: async (riderId) => {
-    const [row] = db.query(
+    const [rows] = await db.query(
       `
       SELECT trackingId, title, type, weight, senderName, senderContact, senderRegion, senderCenter, senderAddress, pickupInstruction, receiverName, receiverContact, receiverRegion, receiverCenter, receiverAddress, deliveryInstruction, created_by, delivery_status, payment_status, created_at, updated_at
       FROM parcels
       WHERE assigned_rider_id = ?
       
-      `[riderId]
+      `,
+      [riderId]
     );
-    return row;
+    return rows;
   },
 
   // Delete application

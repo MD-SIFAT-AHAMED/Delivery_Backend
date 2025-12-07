@@ -11,7 +11,7 @@ const { verifyToken } = require("../middlewares/authMiddlewares/verifyJWT");
 
 const router = express.Router();
 
-router.get("/", verifyToken, getAllRider);
+
 router.post(
   "/apply-rider",
   riderApplicationValidators,

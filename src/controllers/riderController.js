@@ -41,6 +41,13 @@ exports.getAssignParcel = async (req, res) => {
   const { email } = req.query;
   try {
     const riderId = await rider.getRiderId(email);
+    console.log(riderId);
+    if (!riderId) {
+      return res.status(404).json({
+        success: false,
+        message: "Rider not found",
+      });
+    }
     const result = await rider.getAssignparcel(riderId);
     res.status(200).json({
       success: true,
