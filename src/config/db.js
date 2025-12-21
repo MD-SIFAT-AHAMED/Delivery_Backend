@@ -9,10 +9,12 @@ const mySqlPool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   connectionLimit: 10,
-  ssl: {
-    ca: process.env.CA,
-  },
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : undefined
+  // ssl: {
+  //   ca: process.env.CA,
+  // },
 });
+
 
 mySqlPool.getConnection((err, connection) => {
   if (err) {
