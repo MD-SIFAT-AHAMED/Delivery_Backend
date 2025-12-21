@@ -17,7 +17,8 @@ app.use(
     origin: [
       // "http://localhost:5173",
       // "http://localhost:5174",
-      process.env.FRONTEND_URL,
+      "https://profast-webapp.web.app",
+      // process.env.FRONTEND_URL,
     ],
   })
 );
